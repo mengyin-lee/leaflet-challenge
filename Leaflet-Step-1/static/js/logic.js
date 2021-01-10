@@ -39,7 +39,7 @@ d3.json(queryUrl, function(data) {
     case magnitude > 5:
       return "red";
     case magnitude > 4:
-      return "organge";
+      return "orange";
     case magnitude > 3:
       return "yellow";
     case magnitude > 2:
@@ -66,29 +66,42 @@ d3.json(queryUrl, function(data) {
     },
     // circle style
     style: styleInfo,
-    // popup for each marker
+    // Bind popup for each marker
     onEachFeature: function(feature, layer) {
       layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
     }
   }).addTo(myMap);
 
-  // an object legend
-  var legend = L.control({
-    position: "bottomright"
-  });
+  function getColor(d) {
+    if (d === '5') {
+        return 'red'
+    } else if (d === '4') {
+        return 'orange'
+    } else if (d === '3') {
+        return 'yellow'
+    } else if (d === '2') {
+        return 'yellowgreen'
+    } else if (d === '1') {
+        return 'green'
+    } else {
+        return 'aqua'
+    }
+  };
 
-  // details for the legend
+  // Set up the legend
+  var legend = L.control({position: "bottomright"});
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
-    labels = [];
-    scales = [0, 1, 2, 3, 4, 5];
-
-
+    labels = ['<strong>Magnitude</strong>'],
+    grades = ['0', '1', '2', '3', '4', '5'];
+  
     // Looping through
-    for (var i = 0; i < scales.length; i++) {
+    for (var i = 0; i < grades.length; i++) {
+  
         div.innerHTML += 
         labels.push(
-            `<i style="background:${changeColor(scales[i] + 1)}"></i> ${scales[i]}${scales[i + 1] ? "&ndash;" + scales[i + 1] : "+"}`);
+          '<i class = "circle" style="background:' + getColor(grades[i]) + '"></i> '+
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1]: '+'));
 
     }
     div.innerHTML = labels.join('<br>');
