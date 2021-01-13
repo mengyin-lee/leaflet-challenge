@@ -93,7 +93,7 @@ d3.json(queryUrl, function(data) {
   var legend = L.control({position: "bottomright"});
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
-    labels = ['<strong>Magnitude</strong>'],
+    labels = ['<strong>Depth</strong>'],
     grades = ['0', '1', '2', '3', '4', '5'];
   
     // Looping through
