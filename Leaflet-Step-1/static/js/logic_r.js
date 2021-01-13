@@ -22,30 +22,29 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 
 //  Set style based on magnitude - color, radius, opacity
 d3.json(queryUrl, function(data) {
-  function styleInf(feature) {
+  function styleInfo(feature) {
     return {
       opacity: 0.5,
       fillOpacity: 0.5,
       color: "black",
-      fillColor: changeColor(parseInt(feature.geometry.coordinates[2])),
+      fillColor: changeColor(feature.properties.mag),
       radius: setRadius(feature.properties.mag),
       stroke: true,
       weight: 0.5
     };
   }
-
   // change different color from magnitude
-    function changeColor(depth) {
+    function changeColor(magnitude) {
     switch (true) {
-    case depth > 5:
+    case magnitude > 5:
       return "red";
-    case depth > 4:
+    case magnitude > 4:
       return "orange";
-    case depth > 3:
+    case magnitude > 3:
       return "yellow";
-    case depth > 2:
+    case magnitude > 2:
       return "yellowgreen";
-    case depth > 1:
+    case magnitude > 1:
       return "green";
     default:
       return "aqua";
@@ -65,7 +64,7 @@ d3.json(queryUrl, function(data) {
     pointToLayer: function(feature, latlng) {
       return L.circleMarker(latlng);
     },
-    style: styleInf,
+    style: styleInfo,
     // Bind popup for each marker
     onEachFeature: function(feature, layer) {
       layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place + "<br>Depth: " 
