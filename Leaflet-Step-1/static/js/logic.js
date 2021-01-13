@@ -27,7 +27,7 @@ d3.json(queryUrl, function(data) {
       opacity: 0.5,
       fillOpacity: 0.5,
       color: "black",
-      fillColor: changeColor(parseInt(feature.geometry.coordinates[2])),//depth
+      fillColor: changeColor(feature.geometry.coordinates[2]),//depth
       radius: setRadius(feature.properties.mag),//magnitude
       stroke: true,
       weight: 0.5
