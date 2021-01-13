@@ -20,21 +20,21 @@ lightmap.addTo(myMap);
 // API endpoint - Select the dataset that has all Earthquakes for the past 7 Days - all week
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
-//  Set style based on magnitude - color, radius, opacity
+//  Set style based on magnitude, depth
 d3.json(queryUrl, function(data) {
   function styleInf(feature) {
     return {
       opacity: 0.5,
       fillOpacity: 0.5,
       color: "black",
-      fillColor: changeColor(parseInt(feature.geometry.coordinates[2])),
-      radius: setRadius(feature.properties.mag),
+      fillColor: changeColor(parseInt(feature.geometry.coordinates[2])),//depth
+      radius: setRadius(feature.properties.mag),//magnitude
       stroke: true,
       weight: 0.5
     };
   }
 
-  // change different color from magnitude
+  // change different color from depth
     function changeColor(depth) {
     switch (true) {
     case depth > 5:
@@ -73,6 +73,7 @@ d3.json(queryUrl, function(data) {
     }
   }).addTo(myMap);
 
+  // set legend color based on predefined grades from 1 to 5
   function getColor(d) {
     if (d === '5') {
         return 'red'
